@@ -1,0 +1,218 @@
+/*!
+ * Start Bootstrap - Stylish Portfolio v5.0.7 (https://startbootstrap.com/template-overviews/stylish-portfolio)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-stylish-portfolio/blob/master/LICENSE)
+ */
+
+.portfolio-item .caption-content {
+  visibility: hidden;
+}
+
+.portfolio-item:hover .caption-content {
+  visibility: visible;
+}
+
+.small-title {
+  visibility: hidden;
+}
+
+.portfolio-item:hover .caption-content {
+  visibility: visible;
+}
+
+h1 .small-title {
+  font-size:.8rem;  
+  color: white;
+  opacity: .7;
+
+}
+
+@media (max-width: 991px) {
+  #contact h2  {
+    font-size:1.5rem;  
+
+  }
+}
+
+.text-secondary {
+  color: #FFD28F !important;
+}
+
+
+/* Mastheads */
+
+
+.masthead h1, .masthead h3 {
+  color: white;
+}
+
+.masthead-nature-scot h1, .masthead-coast h1, .masthead-aracari h1 {
+  color: white;
+  opacity: .7;
+}
+
+.masthead-coast {
+  min-height: 30rem;
+  position: relative;
+  display: table;
+  width: 100%;
+  height: auto;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%), url("../img/bg-masthead-coast.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.masthead-aracari {
+  min-height: 30rem;
+  position: relative;
+  display: table;
+  width: 100%;
+  height: auto;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%), url("../img/bg-masthead-aracari.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.masthead-nature-scot {
+  min-height: 30rem;
+  position: relative;
+  display: table;
+  width: 100%;
+  height: auto;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%), url("../img/bg-masthead-nature-scot.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.masthead-woodside {
+  min-height: 30rem;
+  position: relative;
+  display: table;
+  width: 100%;
+  height: auto;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%), url("../img/bg-masthead-woodside.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.masthead-arran {
+  min-height: 30rem;
+  position: relative;
+  display: table;
+  width: 100%;
+  height: auto;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%), url("../img/bg-masthead-arran.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.masthead-horizon {
+  min-height: 30rem;
+  position: relative;
+  display: table;
+  width: 100%;
+  height: auto;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%), url("../img/bg-masthead-horizon.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+
+
+/* Portfolio Items */
+
+
+.portfolio-item .caption .caption-content {
+  color: #000;
+  margin: auto 2rem 2rem;
+}
+
+
+@media (max-width: 991px) {
+  .portfolio-item .caption .caption-content {
+    color: #fff;
+    margin: auto 2rem 2rem;
+  }
+}
+
+
+@media (min-width: 992px) {
+    .portfolio-item img {
+    -webkit-transition: -webkit-clip-path 0.25s ease-out;
+    -webkit-clip-path: inset(-1px);
+    clip-path: inset(-1px);
+  }
+
+  .portfolio-item:hover img {
+    -webkit-clip-path: inset(.5rem);
+    clip-path: inset(.5rem);
+  }
+  .portfolio-item:hover .caption {
+    background-color: rgba(255, 255, 255, 0.7);
+    -webkit-clip-path: inset(.5rem);
+    clip-path: inset(.5rem);
+  }
+}
+
+@media (min-width: 992px) {
+
+  .projects {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.9);
+  }
+
+  .projects:hover img {
+      opacity: .5;
+  -webkit-transform: translateY(0em);
+          transform: translateY(0em);
+  -webkit-transition: opacity .2s ease-out,
+              -webkit-transform .2s ;
+  transition: opacity .2s ease-out,
+              -webkit-transform .2s ;
+  transition: transform .2s ,
+              opacity .2s ease-out,
+              -webkit-transform .2s ;
+
+  will-change: transform, opacity;
+  }
+}
+
+
+
+/* Side Menu */
+#sidebar-wrapper {
+  position: fixed;
+  z-index: 2;
+  right: 0;
+  width: 250px;
+  height: 100%;
+  transition: all 0.4s ease 0s;
+  transform: translateX(250px);
+  background: #333;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-nav li a:hover {
+  text-decoration: none;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.2);
+}

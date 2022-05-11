@@ -1,0 +1,22 @@
+
+.inline-photo {
+  opacity: .5;
+  -webkit-transform: translateY(0em);
+          transform: translateY(0em);
+  -webkit-transition: opacity .2s .25s ease-out,
+              -webkit-transform .2s .25s ;
+  transition: opacity .2s .25s ease-out,
+              -webkit-transform .2s .25s ;
+  transition: transform .2s .25s ,
+              opacity .3s .25s ease-out,
+              -webkit-transform .2s .25s ;
+
+  will-change: transform, opacity;
+}
+
+.inline-photo.is-visible {
+  opacity: 1;
+  -webkit-transform: rotateZ(0deg);
+          transform: rotateZ(0deg);
+}
+
