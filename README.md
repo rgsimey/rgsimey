@@ -1,8 +1,10 @@
-# Simon Ross-Gill - 
+# Simon Ross-Gill
 
 ## Isle of Arran, Scotland
 
-Hi there, I am using Github to serve 4 websites in the Isle of Arran, Scotland for organisations that I am involved with as a volunteer and social entrepreneur.
+Hi there, 
+
+I am using Github to serve 4 websites in the Isle of Arran, Scotland for organisations that I am involved with as a volunteer and social entrepreneur.
 
 * The Arran Pioneer Project CIC
 * The Arran Green Map
