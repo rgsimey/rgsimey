@@ -1,6 +1,6 @@
 # Simon Ross-Gill 
 
-### Isle of Arran, Scotland
+## Isle of Arran, Scotland
 
 Hi there, 
 
