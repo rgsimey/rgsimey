@@ -1,0 +1,250 @@
+/*
+	rgsimey.scot — custom palette & typography override
+	Sits on top of main.css — load this AFTER main.css
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+/* ─── Typography ─────────────────────────────────────────── */
+
+body {
+	font-family: 'Source Sans 3', sans-serif;
+	color: #231e2e;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Lora', Georgia, serif;
+	color: #231e2e;
+}
+
+/* ─── Sidebar / Header ───────────────────────────────────── */
+
+#header {
+	background-color: #4a3870 !important;
+	background-image: url("images/overlay.png"), url("../../images/bg.jpg") !important;
+	background-size: auto, cover !important;
+	background-position: top left, center center !important;
+}
+
+/* Name — bright white */
+#header strong,
+#header b {
+	color: #ffffff !important;
+}
+
+/* Tagline — soft cream */
+#header h1 {
+	color: rgba(240, 207, 160, 0.75) !important;
+}
+
+#header h1 a {
+	color: #f0cfa0 !important;
+}
+
+#header .image.avatar {
+	border-radius: 0;
+}
+
+#header .image.avatar img {
+	border-radius: 0;
+}
+
+/* ─── Footer ─────────────────────────────────────────────── */
+
+#footer {
+	background-color: transparent !important;
+	background-image: none !important;
+}
+
+#footer .icons a {
+	color: #f0cfa0;
+}
+
+#footer .icons a:hover {
+	color: #ffffff;
+}
+
+#footer .copyright li {
+	color: rgba(240, 207, 160, 0.5);
+}
+
+#footer .copyright li a {
+	color: #f0cfa0;
+}
+
+/* ─── Accent colour ──────────────────────────────────────── */
+
+a {
+	color: #8f5f20;
+	border-bottom-color: rgba(143, 95, 32, 0.25);
+}
+
+a:hover {
+	color: #4a3870;
+	border-bottom-color: rgba(74, 56, 112, 0.25);
+}
+
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button,
+.button {
+	border-color: #4a3870;
+	color: #4a3870 !important;
+}
+
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+button:hover,
+.button:hover {
+	background-color: #4a3870 !important;
+	color: #f0cfa0 !important;
+}
+
+.button.primary {
+	background-color: #4a3870 !important;
+	border-color: #4a3870 !important;
+	color: #f0cfa0 !important;
+}
+
+.button.primary:hover {
+	background-color: #5a4888 !important;
+}
+
+/* ─── Portfolio grid ─────────────────────────────────────── */
+
+.work-item h3 {
+	font-family: 'Lora', Georgia, serif;
+	font-size: 0.95em;
+	margin: 0.6em 0 0.2em;
+	color: #231e2e;
+}
+
+.work-item p {
+	font-size: 0.85em;
+	color: #5a4d6a;
+	margin: 0;
+}
+
+/* ─── Gallery subpage backgrounds ───────────────────────── */
+
+body.page-maps,
+body.page-print {
+	background-color: #8f5f20;
+}
+
+body.page-maps #main,
+body.page-print #main {
+	background-color: #8f5f20;
+}
+
+body.page-books,
+body.page-websites {
+	background-color: #2d2540;
+}
+
+body.page-books #main,
+body.page-websites #main {
+	background-color: #2d2540;
+}
+
+body.page-branding {
+	background-color: #2e4d3a;
+}
+
+body.page-branding #main {
+	background-color: #2e4d3a;
+}
+
+body.page-logos {
+	background-color: #ede8f0;
+}
+
+body.page-logos #main {
+	background-color: #ede8f0;
+}
+
+/* Text on dark subpages */
+body.page-maps h2, body.page-maps h3, body.page-maps p,
+body.page-print h2, body.page-print h3, body.page-print p,
+body.page-books h2, body.page-books h3, body.page-books p,
+body.page-websites h2, body.page-websites h3, body.page-websites p,
+body.page-branding h2, body.page-branding h3, body.page-branding p {
+	color: #f0ece8;
+}
+
+body.page-maps .work-item p,
+body.page-print .work-item p,
+body.page-books .work-item p,
+body.page-websites .work-item p,
+body.page-branding .work-item p {
+	color: rgba(240, 236, 232, 0.65);
+}
+
+body.page-logos h2,
+body.page-logos h3 {
+	color: #231e2e;
+}
+
+body.page-logos .work-item p {
+	color: #5a4d6a;
+}
+
+/* ─── Back link ──────────────────────────────────────────── */
+
+.back-link {
+	display: inline-block;
+	font-family: 'Source Sans 3', sans-serif;
+	font-size: 0.85em;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	margin-bottom: 2em;
+	color: #f0cfa0;
+	border-bottom: 1px solid rgba(240, 207, 160, 0.3);
+	text-decoration: none;
+}
+
+.back-link:hover {
+	color: #ffffff;
+	border-bottom-color: rgba(255,255,255,0.4);
+}
+
+body.page-logos .back-link {
+	color: #4a3870;
+	border-bottom-color: rgba(74, 56, 112, 0.3);
+}
+
+body.page-logos .back-link:hover {
+	color: #231e2e;
+}
+
+/* ─── Section intro text ─────────────────────────────────── */
+
+#one p {
+	font-size: 1.05em;
+	line-height: 1.75em;
+	color: #3d3050;
+}
+
+#one header.major h2 {
+	font-size: 1.6em;
+	line-height: 1.4em;
+}
+
+/* ─── Contact section ────────────────────────────────────── */
+
+#three .labeled-icons h3.icon {
+	color: #4a3870;
+}
+
+/* ─── Poptrox lightbox ───────────────────────────────────── */
+
+.poptrox-popup {
+	background: #231e2e !important;
+}
+
+.poptrox-popup .caption {
+	background: rgba(35, 30, 46, 0.9) !important;
+	color: #f0cfa0 !important;
+}
