@@ -34,7 +34,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Tagline — soft cream */
 #header h1 {
-	color: rgba(240, 207, 160, 0.75) !important;
+	color: #fdd8a4 !important;
+	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+
 }
 
 #header h1 a {
