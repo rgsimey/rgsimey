@@ -1,0 +1,171 @@
+/* ============================================================
+   arran-map.css
+   Animation styles for the Arran map.
+
+   viewBox: 0 0 260 320
+   Drawing sequence:
+     1. Wash (stylistic shape) fades in slowly underneath
+     2. Coastline ink stroke draws
+     3. Sketch overlay draws (slightly offset, lighter)
+     4. Holy Isle pops in
+     5. Pladda pops in
+     6. Ravens settle in last
+   ============================================================
+   To adjust the animation: edit the variables in :root below.
+   ============================================================ */
+
+:root {
+  --map-ink: #1a1a1a;
+  --map-wash: rgba(74, 100, 120, 0.20);
+
+  /* Stroke weights — tuned for the 260×320 viewBox */
+  --coastline-weight: 2.2;
+  --sketch-weight: 0.8;
+  --island-weight: 1.6;
+
+  /* Animation timing — edit these to taste */
+  --duration-coastline: 3.6s;
+  --duration-sketch: 3.8s;
+  --duration-wash: 2.2s;
+
+  --delay-wash: 0.2s;
+  --delay-coastline: 0.4s;
+  --delay-sketch: 0.7s;
+  --delay-holy-isle: 2.6s;
+  --delay-pladda: 3.1s;
+  --delay-raven-1: 3.5s;
+  --delay-raven-2: 4.1s;
+}
+
+/* ============================================================
+   STATIC STATES (before .drawing class is added)
+   ============================================================ */
+
+.arran-wash {
+  fill: var(--map-wash);
+  stroke: none;
+  opacity: 0;
+  transition: opacity var(--duration-wash) ease-in-out;
+  transition-delay: var(--delay-wash);
+}
+
+.arran-outline {
+  fill: none;
+  stroke: var(--map-ink);
+  stroke-width: var(--coastline-weight);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+}
+
+.arran-sketch {
+  fill: none;
+  stroke: var(--map-ink);
+  stroke-width: var(--sketch-weight);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  opacity: 0.55;
+}
+
+.holy-isle-outline {
+  fill: none;
+  stroke: var(--map-ink);
+  stroke-width: var(--island-weight);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+}
+
+.pladda-outline {
+  fill: none;
+  stroke: var(--map-ink);
+  stroke-width: var(--island-weight);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 15;
+  stroke-dashoffset: 15;
+}
+
+/* Ravens — hidden initially, animate in last */
+.raven {
+  opacity: 0;
+}
+
+.raven path {
+  fill: var(--map-ink);
+}
+
+/* ============================================================
+   ANIMATED STATES (.drawing class added when scrolled into view)
+   ============================================================ */
+
+.map-svg.drawing .arran-wash { opacity: 1; }
+
+.map-svg.drawing .arran-outline {
+  animation: draw var(--duration-coastline) cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: var(--delay-coastline);
+}
+
+.map-svg.drawing .arran-sketch {
+  animation: draw var(--duration-sketch) cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: var(--delay-sketch);
+}
+
+.map-svg.drawing .holy-isle-outline {
+  animation: draw 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: var(--delay-holy-isle);
+}
+
+.map-svg.drawing .pladda-outline {
+  animation: draw 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: var(--delay-pladda);
+}
+
+.map-svg.drawing .raven-1 {
+  animation: raven-land var(--duration-raven) cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
+  animation-delay: var(--delay-raven-1);
+}
+
+.map-svg.drawing .raven-2 {
+  animation: raven-land var(--duration-raven) cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
+  animation-delay: var(--delay-raven-2);
+}
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Ravens fade in and settle — like ink dropping onto paper */
+@keyframes raven-land {
+  0% {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  60% { opacity: 0.85; }
+  100% { opacity: 1; }
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .arran-outline,
+  .arran-sketch,
+  .holy-isle-outline,
+  .pladda-outline {
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+  .arran-wash,
+  .raven {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
