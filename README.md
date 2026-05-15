@@ -4,14 +4,17 @@
 
 Hi there, 
 
-I am using Github to serve 4 websites on the Isle of Arran, Scotland for organisations / projects that I am involved with here.
+Please see my design portfolio here: [rgsimey.scot](https://rgsimey.scot/)
 
+Contact me for page layout, map design, illustration, book design and simple websites.
+
+I use Github to serve various websites here in the Isle of Arran, Scotland for organisations / projects that I am involved with.
+
+* [Dùthchas Arainn CBS](https://duthchas.scot)
 * [The Arran Pioneer Project CIC](https://pioneerproject.scot)
 * [The Arran Green Map](https://arrangreenmap.co.uk/)
 * [Arran Huts](https://arranhuts.scot/)
 * [Love Millstone Point](https://lovemillstonepoint.com/)
-
-And one for profit website: my own graphic design portfolio - https://www.rgsimey.scot/ contact me for page layout, map design, illustration and book design.
 
 ## Web Design
 
