@@ -15,6 +15,35 @@
     11. RESPONSIVE
    ============================================================ */
 
+/* ─── FALLBACK FONTS ──────────────────────────────────
+   These match Georgia and Arial's metrics to Playfair / Fraunces / Inter
+   so the swap when Google Fonts arrive doesn't cause layout shift.
+   ──────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Playfair fallback';
+  src: local('Georgia');
+  size-adjust: 108%;
+  ascent-override: 92%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Fraunces fallback';
+  src: local('Georgia');
+  size-adjust: 104%;
+  ascent-override: 94%;
+  descent-override: 26%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Inter fallback';
+  src: local('Arial');
+  size-adjust: 100%;
+  ascent-override: 95%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
 
 /* ─── 1. ROOT VARIABLES ────────────────────────────── */
 :root {
@@ -29,9 +58,9 @@
   --accent: #8b3a2e;
 
   /* Type */
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body: 'Fraunces', Georgia, serif;
-  --font-meta: 'Inter', sans-serif;
+  --font-display: 'Playfair Display', 'Playfair fallback', Georgia, serif;
+  --font-body: 'Fraunces', 'Fraunces fallback', Georgia, serif;
+  --font-meta: 'Inter', 'Inter fallback', Arial, sans-serif;
 }
 
 
@@ -88,6 +117,7 @@ body::before {
   color: var(--ink);
 }
 
+/* Hairline under the main border — the broadsheet masthead double-rule */
 .masthead::after {
   content: '';
   position: absolute;
@@ -119,21 +149,10 @@ body::before {
 .hero {
   padding: 3.5rem 0 4.5rem;
   border-bottom: 3px solid var(--rule);
-  position: relative;
   display: grid;
   grid-template-columns: 1.4fr 1fr;
   gap: 3rem;
   align-items: center;
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--rule);
 }
 
 .hero-text {
@@ -240,17 +259,6 @@ body::before {
 .practice {
   padding: 4.5rem 0;
   border-bottom: 3px solid var(--rule);
-  position: relative;
-}
-
-.practice::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--rule);
 }
 
 .skills-list {
@@ -334,17 +342,6 @@ body::before {
 .work {
   padding: 4.5rem 0;
   border-bottom: 3px solid var(--rule);
-  position: relative;
-}
-
-.work::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--rule);
 }
 
 .section-head {
@@ -452,17 +449,6 @@ body::before {
   grid-template-columns: 1fr 1.4fr;
   gap: 4rem;
   align-items: flex-start;
-  position: relative;
-}
-
-.about::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--rule);
 }
 
 .about-image {
@@ -543,17 +529,6 @@ body::before {
 .clients {
   padding: 4rem 0;
   border-bottom: 3px solid var(--rule);
-  position: relative;
-}
-
-.clients::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--rule);
 }
 
 .clients h2 {
@@ -632,24 +607,26 @@ body::before {
 .contact a.email {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.75rem;
-  color: var(--ink);
+  font-size: 1.4rem;
+  color: var(--paper);
+  background: var(--ink);
   text-decoration: none;
-  border-bottom: 3px solid var(--ink);
-  padding-bottom: 0.3rem;
-  transition: color 0.2s, border-color 0.2s;
+  padding: 0.85rem 1.75rem;
+  display: inline-block;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
 }
 
 .contact a.email:hover {
-  color: var(--accent);
-  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--paper);
+  transform: translateY(-1px);
 }
 
 
 /* ─── 10. FOOTER ──────────────────────────────────── */
 footer {
   padding: 2.5rem 0;
-  border-top: 6px solid var(--rule);
+  border-top: 4px solid var(--rule);
   font-family: var(--font-meta);
   font-size: 0.72rem;
   letter-spacing: 0.1em;
@@ -661,17 +638,6 @@ footer {
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  position: relative;
-}
-
-footer::before {
-  content: '';
-  position: absolute;
-  top: 5px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--rule);
 }
 
 .footer-mark {
@@ -680,38 +646,199 @@ footer::before {
   gap: 0.75rem;
 }
 
-.footer-mark svg {
-  width: 24px;
-  height: auto;
-}
-
 .footer-mark .logo img {
   height: 88px;
   width: auto;
   display: block;
 }
 
+.footer-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+  text-align: right;
+}
+
+.footer-social {
+  display: flex;
+  gap: 0.85rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.footer-social a:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.footer-social svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.footer-social .label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+
+/* ─── SUBPAGE STYLES ───────────────────────────────
+   Used by books / maps / print / branding / logos / websites
+   ───────────────────────────────────────────────── */
+
+.page-hero {
+  padding: 3.5rem 0 3rem;
+  border-bottom: 3px solid var(--rule);
+}
+
+.page-hero .back-link {
+  display: inline-block;
+  font-family: var(--font-meta);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  margin-bottom: 2rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.page-hero .back-link:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.page-hero h1 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.75rem, 7vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+
+.page-hero .standfirst {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: var(--ink);
+  max-width: 44rem;
+}
+
+.gallery {
+  padding: 4rem 0;
+  border-bottom: 3px solid var(--rule);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem 2.5rem;
+}
+
+.gallery-item {
+  display: block;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.gallery-figure {
+  background: #e8e3d8;
+  aspect-ratio: 4 / 3;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+}
+
+.gallery-figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.gallery-item:hover .gallery-figure img { transform: scale(1.02); }
+
+.gallery-item h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+
+.gallery-item p {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+
+.gallery-item p a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.gallery-item p a:hover { border-bottom-color: var(--accent); }
+
 
 /* ─── 11. RESPONSIVE ──────────────────────────────── */
+/* Tablet / smaller desktop — keep hero side by side, shrink everything */
 @media (max-width: 800px) {
-  html { font-size: 16px; }
+  html { font-size: 15px; }
   .container { padding: 0 1.25rem; }
 
+  /* Hero stays 2-column but tighter */
   .hero {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-    padding: 2.5rem 0 3.5rem;
+    gap: 1.75rem;
+    padding: 2.5rem 0 3rem;
+    grid-template-columns: 1.4fr 1fr;
   }
 
   .hero h1 {
-    font-size: clamp(3rem, 14vw, 5rem);
+    font-size: clamp(2.5rem, 9vw, 4.5rem);
   }
 
-  .map-svg { max-width: 260px; }
-
-  .practice {
-    padding: 3.5rem 0;
+  .hero .role {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
   }
+
+  .hero .standfirst {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .map-svg { max-width: 220px; }
+  .map-caption { max-width: 220px; font-size: 0.65rem; }
+
+  .practice { padding: 3.5rem 0; }
 
   .skills-list li {
     grid-template-columns: 1fr;
@@ -739,5 +866,48 @@ footer::before {
     flex-direction: column;
     gap: 0.75rem;
     align-items: flex-start;
+  }
+
+  /* Subpages */
+  .page-hero { padding: 2.5rem 0 2.5rem; }
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  /* Footer stacks */
+  footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  .footer-meta {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+/* Phone — stack the hero, since the map gets too tiny otherwise */
+@media (max-width: 520px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.75rem, 13vw, 4rem);
+  }
+
+  .hero .standfirst {
+    font-size: 1.0625rem;
+  }
+
+  .map-svg { max-width: 200px; }
+  .map-caption { max-width: 200px; }
+
+  .hero-cta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
   }
 }
