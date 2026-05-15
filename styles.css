@@ -99,7 +99,7 @@ body::before {
 }
 
 .masthead .logo img {
-  height: 44px;
+  height: 88px;
   width: auto;
   display: block;
 }
@@ -630,6 +630,12 @@ footer::before {
 .footer-mark svg {
   width: 24px;
   height: auto;
+}
+
+.footer-mark .logo img {
+  height: 88px;
+  width: auto;
+  display: block;
 }
 
 
