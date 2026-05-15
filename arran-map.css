@@ -18,6 +18,18 @@
   --map-ink: #1a1a1a;
   --map-wash: rgba(74, 100, 120, 0.20);
 
+  /* Pastel palette for the ambient wash cycle.
+     These shift slowly through the wash over a long cycle.
+     Swap any of these for colours from your logo palette. */
+  --wash-1: rgba(168, 196, 210, 0.28);   /* pale sea-blue */
+  --wash-2: rgba(196, 206, 188, 0.28);   /* dusty sage */
+  --wash-3: rgba(218, 200, 184, 0.30);   /* warm sandstone */
+  --wash-4: rgba(202, 188, 204, 0.28);   /* pale heather */
+  --wash-5: rgba(186, 204, 206, 0.28);   /* cool mist */
+
+  /* How long one full cycle through all five colours takes */
+  --wash-cycle: 36s;
+
   /* Stroke weights — tuned for the 260×320 viewBox */
   --coastline-weight: 2.2;
   --sketch-weight: 0.8;
@@ -42,11 +54,19 @@
    ============================================================ */
 
 .arran-wash {
-  fill: var(--map-wash);
+  fill: var(--wash-1);
   stroke: none;
   opacity: 0;
   transition: opacity var(--duration-wash) ease-in-out;
   transition-delay: var(--delay-wash);
+}
+
+/* Once the wash has appeared (.drawing on parent), cycle slowly through the palette */
+.map-svg.drawing .arran-wash {
+  opacity: 1;
+  animation: wash-cycle var(--wash-cycle) ease-in-out infinite;
+  /* Start the cycle just after the wash has fully appeared */
+  animation-delay: calc(var(--delay-wash) + var(--duration-wash));
 }
 
 .arran-outline {
@@ -103,8 +123,6 @@
    ANIMATED STATES (.drawing class added when scrolled into view)
    ============================================================ */
 
-.map-svg.drawing .arran-wash { opacity: 1; }
-
 .map-svg.drawing .arran-outline {
   animation: draw var(--duration-coastline) cubic-bezier(0.4, 0, 0.2, 1) forwards;
   animation-delay: var(--delay-coastline);
@@ -152,6 +170,20 @@
   }
   60% { opacity: 0.85; }
   100% { opacity: 1; }
+}
+
+/* Slow ambient cycle through the pastel palette.
+   Five colours, smooth interpolation between each, looping forever.
+   Note: keyframes need literal colour values to interpolate smoothly —
+   CSS variables don't transition inside @keyframes. If you want to swap
+   colours, edit them here AND in :root (the :root copies are reference). */
+@keyframes wash-cycle {
+  0%   { fill: rgba(150, 188, 210, 0.45); }  /* sea-blue */
+  20%  { fill: rgba(186, 204, 174, 0.45); }  /* sage */
+  40%  { fill: rgba(224, 196, 168, 0.50); }  /* sandstone */
+  60%  { fill: rgba(204, 178, 198, 0.45); }  /* heather */
+  80%  { fill: rgba(170, 200, 204, 0.45); }  /* mist */
+  100% { fill: rgba(150, 188, 210, 0.45); }  /* back to sea-blue */
 }
 
 /* Respect reduced-motion preference */
