@@ -54,10 +54,11 @@
    ============================================================ */
 
 .arran-wash {
-  fill: var(--wash-1);
+  fill: rgba(245, 195, 145, 0.45);  /* matches wash-cycle 0% / 100% */
   stroke: none;
   opacity: 0;
-  transition: opacity var(--duration-wash) ease-in-out;
+  cursor: pointer;
+  transition: opacity var(--duration-wash) ease-in-out, fill 0.6s ease-out;
   transition-delay: var(--delay-wash);
 }
 
@@ -68,6 +69,19 @@
   /* Start the cycle just after the wash has fully appeared */
   animation-delay: calc(var(--delay-wash) + var(--duration-wash));
 }
+
+/* When tinted by a click, the ambient cycle stops and the fill transitions
+   to the named colour. animation: none is needed (not just paused) so the
+   tinted fill values aren't overridden by the running keyframes. */
+.map-svg.tinted .arran-wash {
+  animation: none;
+}
+.map-svg.tinted .arran-wash[data-tint="apricot"]   { fill: rgba(245, 195, 145, 0.55); }
+.map-svg.tinted .arran-wash[data-tint="sage"]      { fill: rgba(190, 200, 188, 0.60); }
+.map-svg.tinted .arran-wash[data-tint="heather"]   { fill: rgba(132, 116, 175, 0.50); }
+.map-svg.tinted .arran-wash[data-tint="sandstone"] { fill: rgba(218, 168, 130, 0.55); }
+.map-svg.tinted .arran-wash[data-tint="mist"]      { fill: rgba(170, 200, 204, 0.55); }
+.map-svg.tinted .arran-wash[data-tint="rose"]      { fill: rgba(220, 170, 175, 0.50); }
 
 .arran-outline {
   fill: none;
