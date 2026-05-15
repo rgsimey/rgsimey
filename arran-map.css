@@ -172,18 +172,17 @@
   100% { opacity: 1; }
 }
 
-/* Slow ambient cycle through the pastel palette.
-   Five colours, smooth interpolation between each, looping forever.
-   Note: keyframes need literal colour values to interpolate smoothly —
-   CSS variables don't transition inside @keyframes. If you want to swap
-   colours, edit them here AND in :root (the :root copies are reference). */
+/* Slow ambient cycle through the logo palette.
+   Three colours pulled from the rgsimey logo:
+     - apricot cloud
+     - sage mountain
+     - heather foreshore
+   Smooth interpolation between each, looping forever. */
 @keyframes wash-cycle {
-  0%   { fill: rgba(150, 188, 210, 0.45); }  /* sea-blue */
-  20%  { fill: rgba(186, 204, 174, 0.45); }  /* sage */
-  40%  { fill: rgba(224, 196, 168, 0.50); }  /* sandstone */
-  60%  { fill: rgba(204, 178, 198, 0.45); }  /* heather */
-  80%  { fill: rgba(170, 200, 204, 0.45); }  /* mist */
-  100% { fill: rgba(150, 188, 210, 0.45); }  /* back to sea-blue */
+  0%   { fill: rgba(245, 195, 145, 0.45); }  /* apricot — cloud */
+  33%  { fill: rgba(190, 200, 188, 0.50); }  /* sage — mountain */
+  66%  { fill: rgba(132, 116, 175, 0.40); }  /* heather — foreshore */
+  100% { fill: rgba(245, 195, 145, 0.45); }  /* back to apricot */
 }
 
 /* Respect reduced-motion preference */
