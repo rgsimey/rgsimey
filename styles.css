@@ -117,9 +117,13 @@ body::before {
 
 /* ─── 4. HERO ─────────────────────────────────────── */
 .hero {
-  padding: 4rem 0;
+  padding: 3.5rem 0 4.5rem;
   border-bottom: 3px solid var(--rule);
   position: relative;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3rem;
+  align-items: center;
 }
 
 .hero::after {
@@ -132,56 +136,55 @@ body::before {
   background: var(--rule);
 }
 
-.eyebrow {
-  font-family: var(--font-meta);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--ink);
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
-}
-
-.eyebrow::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--rule);
-  max-width: 10rem;
+.hero-text {
+  min-width: 0;
 }
 
 .hero h1 {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(3.5rem, 11vw, 9.5rem);
-  line-height: 0.95;
-  letter-spacing: -0.025em;
+  font-size: clamp(3.25rem, 9vw, 7.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+
+.hero h1 .surname {
+  display: block;
   color: var(--ink);
 }
 
-.hero h1 em {
-  font-weight: 400;
+.hero .role {
+  font-family: var(--font-meta);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero .role em {
+  font-family: var(--font-body);
   font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
   color: var(--ink-soft);
-  font-size: 0.72em;
-  letter-spacing: -0.015em;
-  display: block;
-  margin-top: 0.15em;
+  font-size: 1.05em;
 }
 
 .hero .standfirst {
   font-family: var(--font-body);
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   line-height: 1.55;
-  max-width: 38rem;
   color: var(--ink);
   font-weight: 400;
-  margin-top: 2.5rem;
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--rule);
+  margin-bottom: 2rem;
 }
 
 .hero .standfirst strong {
@@ -189,15 +192,54 @@ body::before {
   font-weight: 600;
 }
 
+.hero-cta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
 
-/* ─── 5. PRACTICE (skills + map) ──────────────────── */
+.hero-cta a {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--paper);
+  background: var(--ink);
+  text-decoration: none;
+  padding: 0.7rem 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.hero-cta a:hover {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.hero-cta a span {
+  transition: transform 0.2s;
+}
+
+.hero-cta a:hover span {
+  transform: translateX(3px);
+}
+
+.hero-cta-meta {
+  font-family: var(--font-meta);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+
+/* ─── 5. PRACTICE (skills list only — map has moved to hero) */
 .practice {
   padding: 4.5rem 0;
   border-bottom: 3px solid var(--rule);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
   position: relative;
 }
 
@@ -211,51 +253,52 @@ body::before {
   background: var(--rule);
 }
 
-.practice h2 {
-  font-family: var(--font-meta);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--ink);
-  font-weight: 600;
-  margin-bottom: 2rem;
-  padding-bottom: 0.875rem;
-  border-bottom: 2px solid var(--rule);
+.skills-list {
+  list-style: none;
 }
 
-.skills-list { list-style: none; }
-
 .skills-list li {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  line-height: 1.35;
-  color: var(--ink);
-  padding: 0.65rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 2rem;
+  align-items: baseline;
+  padding: 1.25rem 0;
   border-bottom: 1px solid var(--rule-soft);
 }
 
-.skills-list li:last-child { border-bottom: none; }
-
-.skills-list li em {
-  font-family: var(--font-body);
-  font-style: italic;
-  color: var(--ink-soft);
-  font-weight: 300;
-  font-size: 0.85em;
+.skills-list li:last-child {
+  border-bottom: none;
 }
 
+.skills-list .skill-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.skills-list .skill-detail {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* Map frame & SVG sizing (used by hero) */
 .map-frame {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 0;
 }
 
 .map-svg {
   width: 100%;
-  max-width: 340px;
+  max-width: 380px;
   height: auto;
   display: block;
   overflow: visible;
@@ -269,11 +312,21 @@ body::before {
   color: var(--ink);
   font-weight: 500;
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
   padding-top: 0.75rem;
   border-top: 1px solid var(--rule);
   width: 100%;
-  max-width: 340px;
+  max-width: 380px;
+}
+
+.map-caption em {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink-soft);
+  font-size: 1.05em;
 }
 
 
@@ -644,12 +697,27 @@ footer::before {
   html { font-size: 16px; }
   .container { padding: 0 1.25rem; }
 
-  .practice {
+  .hero {
     grid-template-columns: 1fr;
     gap: 2.5rem;
+    padding: 2.5rem 0 3.5rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 14vw, 5rem);
+  }
+
+  .map-svg { max-width: 260px; }
+
+  .practice {
     padding: 3.5rem 0;
   }
-  .map-svg { max-width: 240px; }
+
+  .skills-list li {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+    padding: 1rem 0;
+  }
 
   .work-grid {
     grid-template-columns: 1fr;
@@ -672,5 +740,4 @@ footer::before {
     gap: 0.75rem;
     align-items: flex-start;
   }
-  .hero { padding: 3rem 0; }
 }
