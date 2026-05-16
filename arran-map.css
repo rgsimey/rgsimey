@@ -1,216 +1,233 @@
 /* ============================================================
    arran-map.css
-   Animation styles for the Arran map.
-
-   viewBox: 0 0 260 320
-   Drawing sequence:
-     1. Wash (stylistic shape) fades in slowly underneath
-     2. Coastline ink stroke draws
-     3. Sketch overlay draws (slightly offset, lighter)
-     4. Holy Isle pops in
-     5. Pladda pops in
-     6. Ravens settle in last
    ============================================================
-   To adjust the animation: edit the variables in :root below.
+   The map is an illustration. On load, everything fades in from
+   opacity 0 (illustrate-in). The map root carries a [data-tint]
+   attribute that sets wash + terrain + mountain + Holy Isle colours.
+   Click Holy Isle OR either raven to cycle through tints.
    ============================================================ */
 
-:root {
-  --map-ink: #1a1a1a;
-  --map-wash: rgba(74, 100, 120, 0.20);
-
-  /* Pastel palette for the ambient wash cycle.
-     These shift slowly through the wash over a long cycle.
-     Swap any of these for colours from your logo palette. */
-  --wash-1: rgba(168, 196, 210, 0.28);   /* pale sea-blue */
-  --wash-2: rgba(196, 206, 188, 0.28);   /* dusty sage */
-  --wash-3: rgba(218, 200, 184, 0.30);   /* warm sandstone */
-  --wash-4: rgba(202, 188, 204, 0.28);   /* pale heather */
-  --wash-5: rgba(186, 204, 206, 0.28);   /* cool mist */
-
-  /* How long one full cycle through all five colours takes */
-  --wash-cycle: 36s;
-
-  /* Stroke weights — tuned for the 260×320 viewBox */
-  --coastline-weight: 2.2;
-  --sketch-weight: 0.8;
-  --island-weight: 1.6;
-
-  /* Animation timing — edit these to taste */
-  --duration-coastline: 3.6s;
-  --duration-sketch: 3.8s;
-  --duration-wash: 2.2s;
-
-  --delay-wash: 0.2s;
-  --delay-coastline: 0.4s;
-  --delay-sketch: 0.7s;
-  --delay-holy-isle: 2.6s;
-  --delay-pladda: 3.1s;
-  --delay-raven-1: 3.5s;
-  --delay-raven-2: 4.1s;
+/* ─── Tint palette ──────────────────────────────────
+   Each palette stop defines:
+     --wash      light surface colour (sea)
+     --terrain   darker inland tone (the island mass)
+     --mountain  deepest tone (mountain marks + Holy Isle)
+   Tints are addressed by [data-tint="..."] on .map-svg.
+   ─────────────────────────────────────────────────── */
+.map-svg {
+  --wash: rgba(245, 195, 145, 0.45);
+  --terrain: rgba(212, 138, 88, 0.45);
+  --mountain: rgba(170, 90, 50, 0.85);
+  --ink: #1a1a1a;
 }
 
-/* ============================================================
-   STATIC STATES (before .drawing class is added)
-   ============================================================ */
+.map-svg[data-tint="apricot"] {
+  --wash: rgba(245, 195, 145, 0.50);
+  --terrain: rgba(212, 138, 88, 0.55);
+  --mountain: rgba(170, 90, 50, 0.85);
+}
+.map-svg[data-tint="sage"] {
+  --wash: rgba(190, 200, 188, 0.55);
+  --terrain: rgba(120, 145, 120, 0.60);
+  --mountain: rgba(75, 105, 75, 0.85);
+}
+.map-svg[data-tint="heather"] {
+  --wash: rgba(132, 116, 175, 0.45);
+  --terrain: rgba(85, 70, 130, 0.55);
+  --mountain: rgba(55, 40, 95, 0.85);
+}
+.map-svg[data-tint="sandstone"] {
+  --wash: rgba(220, 165, 130, 0.55);
+  --terrain: rgba(180, 105, 70, 0.60);
+  --mountain: rgba(125, 65, 40, 0.85);
+}
+.map-svg[data-tint="mist"] {
+  --wash: rgba(170, 200, 204, 0.55);
+  --terrain: rgba(110, 145, 155, 0.55);
+  --mountain: rgba(60, 95, 110, 0.85);
+}
+.map-svg[data-tint="rose"] {
+  --wash: rgba(220, 170, 175, 0.50);
+  --terrain: rgba(180, 110, 120, 0.55);
+  --mountain: rgba(125, 65, 80, 0.85);
+}
 
-.arran-wash {
-  fill: rgba(245, 195, 145, 0.45);  /* matches wash-cycle 0% / 100% */
-  stroke: none;
+
+/* ─── Illustrate-in animation ──────────────────────
+   Every element on the map starts at opacity 0 and
+   gently fades up when .drawing is added to the root.
+   ─────────────────────────────────────────────────── */
+.arran-wash,
+.arran-terrain,
+.arran-sketch,
+.holy-isle-outline,
+.pladda-outline,
+.arran-mountains,
+.raven,
+.ann-link {
   opacity: 0;
-  cursor: pointer;
-  transition: opacity var(--duration-wash) ease-in-out, fill 0.6s ease-out;
-  transition-delay: var(--delay-wash);
+  transition: opacity 1.4s ease-out, fill 0.7s ease-out;
 }
 
-/* Once the wash has appeared (.drawing on parent), cycle slowly through the palette */
-.map-svg.drawing .arran-wash {
-  opacity: 1;
-  animation: wash-cycle var(--wash-cycle) ease-in-out infinite;
-  /* Start the cycle just after the wash has fully appeared */
-  animation-delay: calc(var(--delay-wash) + var(--duration-wash));
-}
+.map-svg.drawing .arran-wash      { opacity: 1; transition-delay: 0.05s; }
+.map-svg.drawing .arran-terrain   { opacity: 1; transition-delay: 0.25s; }
+.map-svg.drawing .arran-sketch    { opacity: 0.55; transition-delay: 0.65s; }
+.map-svg.drawing .holy-isle-outline,
+.map-svg.drawing .pladda-outline  { opacity: 1; transition-delay: 0.45s; }
+.map-svg.drawing .arran-mountains     { opacity: .8; transition-delay: 1.05s; }
+.map-svg.drawing .raven-1         { opacity: 1; transition-delay: 3.3s; }
+.map-svg.drawing .raven-2         { opacity: 1; transition-delay: 3.6s; }
+.map-svg.drawing .ann-duthchas    { opacity: 1; transition-delay: 1.8s; }
+.map-svg.drawing .ann-house       { opacity: 1; transition-delay: 3s; }
+.map-svg.drawing .ann-pioneer     { opacity: 1; transition-delay: 2.6s; }
+.map-svg.drawing .ann-greenmap    { opacity: 1; transition-delay: 2.2s; }
 
-/* When tinted by a click, the ambient cycle stops and the fill transitions
-   to the named colour. animation: none is needed (not just paused) so the
-   tinted fill values aren't overridden by the running keyframes. */
-.map-svg.tinted .arran-wash {
-  animation: none;
-}
-.map-svg.tinted .arran-wash[data-tint="apricot"]   { fill: rgba(245, 195, 145, 0.55); }
-.map-svg.tinted .arran-wash[data-tint="sage"]      { fill: rgba(190, 200, 188, 0.60); }
-.map-svg.tinted .arran-wash[data-tint="heather"]   { fill: rgba(132, 116, 175, 0.50); }
-.map-svg.tinted .arran-wash[data-tint="sandstone"] { fill: rgba(218, 168, 130, 0.55); }
-.map-svg.tinted .arran-wash[data-tint="mist"]      { fill: rgba(170, 200, 204, 0.55); }
-.map-svg.tinted .arran-wash[data-tint="rose"]      { fill: rgba(220, 170, 175, 0.50); }
 
+/* Coastline draws as a line — stroke trace */
 .arran-outline {
-  fill: none;
-  stroke: var(--map-ink);
-  stroke-width: var(--coastline-weight);
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  stroke-dasharray: 800;
-  stroke-dashoffset: 800;
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
 }
-
-.arran-sketch {
-  fill: none;
-  stroke: var(--map-ink);
-  stroke-width: var(--sketch-weight);
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  stroke-dasharray: 800;
-  stroke-dashoffset: 800;
-  opacity: 0.55;
-}
-
-.holy-isle-outline {
-  fill: none;
-  stroke: var(--map-ink);
-  stroke-width: var(--island-weight);
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  stroke-dasharray: 60;
-  stroke-dashoffset: 60;
-}
-
-.pladda-outline {
-  fill: none;
-  stroke: var(--map-ink);
-  stroke-width: var(--island-weight);
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  stroke-dasharray: 15;
-  stroke-dashoffset: 15;
-}
-
-/* Ravens — hidden initially, animate in last */
-.raven {
-  opacity: 0;
-}
-
-.raven path {
-  fill: var(--map-ink);
-}
-
-/* ============================================================
-   ANIMATED STATES (.drawing class added when scrolled into view)
-   ============================================================ */
 
 .map-svg.drawing .arran-outline {
-  animation: draw var(--duration-coastline) cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  animation-delay: var(--delay-coastline);
+  animation: draw 3.6s cubic-bezier(0.4, 0, 0.2, 1) 0.45s forwards;
 }
-
-.map-svg.drawing .arran-sketch {
-  animation: draw var(--duration-sketch) cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  animation-delay: var(--delay-sketch);
-}
-
-.map-svg.drawing .holy-isle-outline {
-  animation: draw 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  animation-delay: var(--delay-holy-isle);
-}
-
-.map-svg.drawing .pladda-outline {
-  animation: draw 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  animation-delay: var(--delay-pladda);
-}
-
-.map-svg.drawing .raven-1 {
-  animation: raven-land var(--duration-raven) cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
-  animation-delay: var(--delay-raven-1);
-}
-
-.map-svg.drawing .raven-2 {
-  animation: raven-land var(--duration-raven) cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
-  animation-delay: var(--delay-raven-2);
-}
-
-/* ============================================================
-   KEYFRAMES
-   ============================================================ */
 
 @keyframes draw {
   to { stroke-dashoffset: 0; }
 }
 
-/* Ravens fade in and settle — like ink dropping onto paper */
-@keyframes raven-land {
-  0% {
-    opacity: 0;
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-  60% { opacity: 0.85; }
-  100% { opacity: 1; }
+
+
+/* ─── Element styling ───────────────────────────── */
+
+.arran-wash {
+  fill: var(--wash);
+  stroke: none;
 }
 
-/* Slow ambient cycle through the logo palette.
-   Three colours pulled from the rgsimey logo:
-     - apricot cloud
-     - sage mountain
-     - heather foreshore
-   Smooth interpolation between each, looping forever. */
-@keyframes wash-cycle {
-  0%   { fill: rgba(245, 195, 145, 0.45); }  /* apricot — cloud */
-  33%  { fill: rgba(190, 200, 188, 0.50); }  /* sage — mountain */
-  66%  { fill: rgba(132, 116, 175, 0.40); }  /* heather — foreshore */
-  100% { fill: rgba(245, 195, 145, 0.45); }  /* back to apricot */
+.arran-terrain {
+  fill: var(--terrain);
+  stroke: none;
 }
 
-/* Respect reduced-motion preference */
+.arran-outline {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.arran-sketch {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 0.8;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.holy-isle-outline {
+  fill: var(--mountain);
+  stroke: none;
+  cursor: pointer;
+  transition: opacity 0.4s ease-out, fill 0.6s ease, transform 0.2s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.holy-isle-outline:focus {
+  outline: none;
+}
+
+.pladda-outline {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}
+
+/* Mountain marks — recolour with the tint */
+.arran-mountains .mountain-mark { fill: var(--mountain); stroke: none; }
+.arran-mountains .mountain-line { fill: none; stroke: var(--mountain); }
+
+/* Ravens — solid ink, clickable to cycle colour */
+.raven {
+  cursor: pointer;
+}
+.raven path {
+  fill: var(--ink);
+  stroke: none;
+  transition: fill 0.3s ease;
+}
+.raven:hover path,
+.raven:focus path {
+  fill: var(--mountain);
+}
+.raven:focus {
+  outline: none;
+}
+
+/* ─── Annotations & link styling ─────────────────── */
+
+.ann-link {
+  cursor: pointer;
+  /* Keep transitions tidy for hover */
+  transition: opacity 1.4s ease-out;
+}
+
+.ann-link:hover .ann-text,
+.ann-link:hover .ann-text-white {
+  fill: var(--mountain);
+}
+
+.ann-link:focus { outline: none; }
+
+.ann-text {
+  fill: var(--ink);
+  font-family: 'Inter', 'Inter fallback', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 15.681px;
+  transition: fill 0.3s ease;
+}
+
+.ann-text-white {
+  fill: #ffffff;
+  transition: fill 0.3s ease;
+}
+
+.ann-rect {
+  fill: var(--mountain);
+  fill-opacity: 0.85;
+  transition: fill 0.4s ease, fill-opacity 0.3s ease;
+}
+
+.ann-greenmap:hover .ann-rect {
+  fill-opacity: 1;
+}
+
+.ann-greenmap:hover .ann-text-white {
+  fill: #ffffff; /* keep white on hover — the rect darkens instead */
+}
+
+/* The tiny house paths and pioneer sprout — use ink */
+.ann-house path,
+.ann-pioneer path {
+  fill: var(--ink);
+}
+
+
+/* ─── Reduced motion ────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .arran-outline,
-  .arran-sketch,
-  .holy-isle-outline,
-  .pladda-outline {
-    stroke-dashoffset: 0 !important;
-    animation: none !important;
-  }
   .arran-wash,
-  .raven {
+  .arran-terrain,
+  .arran-outline,
+  .holy-isle-outline,
+  .pladda-outline,
+  .arran-mountains,
+  .raven,
+  .ann-link {
     opacity: 1 !important;
-    animation: none !important;
+    transition: none !important;
   }
+  .map-svg.drawing .arran-sketch { opacity: 0.55 !important; }
 }
