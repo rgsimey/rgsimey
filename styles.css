@@ -377,7 +377,11 @@ body::before {
   gap: 3rem 2.5rem;
 }
 
-.project { cursor: pointer; }
+.project {  cursor: pointer;
+            text-decoration: none !important; 
+            color: var(--ink) !important; 
+          }
+
 
 .project-image {
   background: #e8e3d8;
