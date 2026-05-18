@@ -1,9 +1,12 @@
 /* ============================================================
    arran-map.css
    ============================================================
-   The map is an illustration. On load, everything fades in from
-   opacity 0 (illustrate-in). The map root carries a [data-tint]
-   attribute that sets wash + terrain + mountain + Holy Isle colours.
+   The map is an illustration. On load:
+     • Coastline, Holy Isle, Pladda and mountain ridge lines
+       draw themselves via stroke-dashoffset.
+     • Everything else fades in via opacity.
+   The map root carries a [data-tint] attribute that sets the
+   wash + terrain + mountain + Holy Isle colours.
    Click Holy Isle OR either raven to cycle through tints.
    ============================================================ */
 
@@ -54,14 +57,13 @@
 
 
 /* ─── Illustrate-in animation ──────────────────────
-   Every element on the map starts at opacity 0 and
-   gently fades up when .drawing is added to the root.
+   Most elements start at opacity 0 and gently fade up
+   when .drawing is added to the root. The coastline,
+   Holy Isle, Pladda and mountain ridge lines draw via stroke.
    ─────────────────────────────────────────────────── */
 .arran-wash,
 .arran-terrain,
 .arran-sketch,
-.holy-isle-outline,
-.pladda-outline,
 .arran-mountains,
 .raven,
 .ann-link {
@@ -72,9 +74,7 @@
 .map-svg.drawing .arran-wash      { opacity: 1; transition-delay: 0.05s; }
 .map-svg.drawing .arran-terrain   { opacity: 1; transition-delay: 0.25s; }
 .map-svg.drawing .arran-sketch    { opacity: 0.55; transition-delay: 0.65s; }
-.map-svg.drawing .holy-isle-outline,
-.map-svg.drawing .pladda-outline  { opacity: 1; transition-delay: 0.45s; }
-.map-svg.drawing .arran-mountains     { opacity: .8; transition-delay: 1.05s; }
+.map-svg.drawing .arran-mountains { opacity: .8; transition-delay: 1.05s; }
 .map-svg.drawing .raven-1         { opacity: 1; transition-delay: 3.3s; }
 .map-svg.drawing .raven-2         { opacity: 1; transition-delay: 3.6s; }
 .map-svg.drawing .ann-duthchas    { opacity: 1; transition-delay: 1.8s; }
@@ -83,20 +83,53 @@
 .map-svg.drawing .ann-greenmap    { opacity: 1; transition-delay: 2.2s; }
 
 
-/* Coastline draws as a line — stroke trace */
-.arran-outline {
-  stroke-dasharray: 900;
-  stroke-dashoffset: 900;
-}
-
-.map-svg.drawing .arran-outline {
-  animation: draw 3.6s cubic-bezier(0.4, 0, 0.2, 1) 0.45s forwards;
-}
+/* ─── Line-draw animations ─────────────────────── */
 
 @keyframes draw {
   to { stroke-dashoffset: 0; }
 }
 
+/* Coastline */
+.arran-outline {
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+}
+.map-svg.drawing .arran-outline {
+  animation: draw 3.6s cubic-bezier(0.4, 0, 0.2, 1) 0.45s forwards;
+}
+
+/* Pladda — tiny so a short dasharray + quick draw */
+.pladda-outline {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+}
+.map-svg.drawing .pladda-outline {
+  animation: draw 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards;
+}
+
+/* Holy Isle — outline draws, fill fades in after */
+.holy-isle-outline {
+  fill: var(--mountain);
+  fill-opacity: 0;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  cursor: pointer;
+  transition: fill 0.6s ease, fill-opacity 1s ease 1.5s, transform 0.2s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.map-svg.drawing .holy-isle-outline {
+  animation: draw 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.85s forwards;
+  fill-opacity: 1;
+}
+.holy-isle-outline:focus {
+  outline: none;
+}
 
 
 /* ─── Element styling ───────────────────────────── */
@@ -127,28 +160,21 @@
   stroke-linecap: round;
 }
 
-.holy-isle-outline {
+/* Mountain marks fill; mountain lines draw */
+.arran-mountains .mountain-mark {
   fill: var(--mountain);
   stroke: none;
-  cursor: pointer;
-  transition: opacity 0.4s ease-out, fill 0.6s ease, transform 0.2s ease;
-  transform-box: fill-box;
-  transform-origin: center;
 }
 
-.holy-isle-outline:focus {
-  outline: none;
-}
-
-.pladda-outline {
+.arran-mountains .mountain-line {
   fill: none;
-  stroke: var(--ink);
-  stroke-width: 1.6;
+  stroke: var(--mountain);
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
 }
-
-/* Mountain marks — recolour with the tint */
-.arran-mountains .mountain-mark { fill: var(--mountain); stroke: none; }
-.arran-mountains .mountain-line { fill: none; stroke: var(--mountain); }
+.map-svg.drawing .arran-mountains .mountain-line {
+  animation: draw 3s cubic-bezier(0.4, 0, 0.2, 1) 1.5s forwards;
+}
 
 /* Ravens — solid ink, clickable to cycle colour */
 .raven {
@@ -167,11 +193,11 @@
   outline: none;
 }
 
+
 /* ─── Annotations & link styling ─────────────────── */
 
 .ann-link {
   cursor: pointer;
-  /* Keep transitions tidy for hover */
   transition: opacity 1.4s ease-out;
 }
 
@@ -206,7 +232,7 @@
 }
 
 .ann-greenmap:hover .ann-text-white {
-  fill: #ffffff; /* keep white on hover — the rect darkens instead */
+  fill: #ffffff;
 }
 
 /* The tiny house paths and pioneer sprout — use ink */
@@ -221,13 +247,22 @@
   .arran-wash,
   .arran-terrain,
   .arran-outline,
+  .arran-sketch,
   .holy-isle-outline,
   .pladda-outline,
   .arran-mountains,
   .raven,
   .ann-link {
     opacity: 1 !important;
+    fill-opacity: 1 !important;
     transition: none !important;
+    animation: none !important;
   }
-  .map-svg.drawing .arran-sketch { opacity: 0.55 !important; }
+  .arran-outline,
+  .pladda-outline,
+  .holy-isle-outline,
+  .arran-mountains .mountain-line {
+    stroke-dashoffset: 0 !important;
+  }
+  .arran-sketch { opacity: 0.55 !important; }
 }
